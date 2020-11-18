@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+
+<head>
+	<title>Left Sidebar - TXT by HTML5 UP</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="assets/css/main.css" />
+
+	<style>
+		#google-map {
+			width: 65vw;
+			height: 70vh;
+		}
+		#testResult{
+    		white-space:pre-wrap;
+		}
+	</style>
+</head>
+
+<body class="is-preload">
+	<div id="page-wrapper">
+
+		<header id="header">
+			<div class="logo container">
+				<div>
+					<p>clustering</p>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li>
+					<a href="#">Dropdown</a>
+					<ul>
+						<li><a href="#">Lorem ipsum dolor</a></li>
+						<li><a href="#">Magna phasellus</a></li>
+						<li>
+							<a href="#">Phasellus consequat</a>
+							<ul>
+								<li><a href="#">Lorem ipsum dolor</a></li>
+								<li><a href="#">Phasellus consequat</a></li>
+								<li><a href="#">Magna phasellus</a></li>
+								<li><a href="#">Etiam dolore nisl</a></li>
+							</ul>
+						</li>
+						<li><a href="#">Veroeros feugiat</a></li>
+					</ul>
+				</li>
+				<li class="current"><a href="left-sidebar.html">Left Sidebar</a></li>
+				<li><a href="right-sidebar.html">Right Sidebar</a></li>
+				<li><a href="no-sidebar.html">No Sidebar</a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-3 col-12-medium">
+						<div class="sidebar">
+							<!-- Sidebar -->
+							<section>
+								<h2 class="major"><span>Information</span></h2>
+								<pre id = "out"></pre>
+							</section>
+						</div>
+					</div>
+
+					<div class="col-9 col-12-medium imp-medium">
+						<div class="content">
+							<!-- Content -->
+							<section>
+
+								<div id="google-map"></div>
+								<script type="text/javascript">
+									function initMap() {
+										var map = new google.maps.Map(document.getElementById('google-map'), {
+											zoom: 12.5,//처음 줌 값. 숫자가 작을수록 낮은 배율
+											center: { //처음 중심 좌표
+												lat: 37.5642135,
+												lng: 127.0016985
+											}
+										});
+										var infoWindow = new google.maps.InfoWindow();
+										var marker, customicon;
+
+										$.getJSON('predict.json', function (data) {
+											for (i = 0; i < data.length; i++) {
+												var mdata = data[i];
+												var pr = data[i].predict;
+
+												function custom(predict) {
+													switch (predict) {
+														case 0:
+															color = "red";
+															break;
+
+														case 1:
+															color = "orange";
+															break;
+
+														case 2:
+															color = "yellow";
+															break;
+
+														case 3:
+															color = "green";
+															break;
+
+														case 4:
+															color = "blue";
+															break;
+
+														case 5:
+															color = "purple";
+															break;
+
+														case 6:
+															color = "brown";
+															break;
+
+														case 7:
+															color = "white";
+															break;
+
+														default:
+															color = "black";
+													}
+
+													let customurl = "pin_";
+													customurl += color + ".png";
+
+													return customurl;
+												}
+												customicon = custom(pr);
+												marker = new google.maps.Marker({
+													icon: customicon,
+													position: new google.maps.LatLng(data[i].latitude, data[i].longtitude),
+													map: map
+												});
+
+												(function (marker, mdata) {
+													google.maps.event.addListener(marker, "click", function (e) {
+														
+														var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: "+ mdata.sex + "\naddress: "+ mdata.gu + " " + mdata.dong + "\npredict: "+ mdata.predict;
+																							
+														map.setCenter(this.getPosition());
+                    									map.setZoom(14);
+																										
+														console.log(contentstring);
+
+														$("#out").text(contentstring);
+													});
+
+													google.maps.event.addListener(marker, "mouseover", function () {
+														this.setIcon("pin_pink.png");
+													});
+
+													// assuming you also want to hide the infowindow when user mouses-out
+													google.maps.event.addListener(marker, "mouseout", function () {
+														var origincolor = custom(mdata.predict);
+														this.setIcon(origincolor);
+
+													});
+
+												})(marker, mdata);
+											}
+										});
+									}
+								</script>								
+							</section>
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxrPfhx6QB4gb-A5pa5AUAM1BKwdqgySU&callback=initMap">
+		</script>
+</body>
+
+</html>

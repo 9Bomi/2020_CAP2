@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+
+<head>
+	<title>Right Sidebar - TXT by HTML5 UP</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="assets/css/main.css" />
+
+	<style>
+		#google-map {
+			width: 65vw;
+			height: 70vh;
+		}
+
+		#testResult {
+			white-space: pre-wrap;
+		}
+
+		#search-panel {
+			position: absolute;
+			outline: none;
+			text-align: justify;
+
+		}
+	</style>
+
+</head>
+
+<body class="is-preload">
+	<div id="page-wrapper">
+
+		<header id="header">
+			<div class="logo container">
+				<div>
+					<p>regression</p>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li>
+					<a href="#">Dropdown</a>
+					<ul>
+						<li><a href="#">Lorem ipsum dolor</a></li>
+						<li><a href="#">Magna phasellus</a></li>
+						<li>
+							<a href="#">Phasellus consequat</a>
+							<ul>
+								<li><a href="#">Lorem ipsum dolor</a></li>
+								<li><a href="#">Phasellus consequat</a></li>
+								<li><a href="#">Magna phasellus</a></li>
+								<li><a href="#">Etiam dolore nisl</a></li>
+							</ul>
+						</li>
+						<li><a href="#">Veroeros feugiat</a></li>
+					</ul>
+				</li>
+				<li><a href="left-sidebar.html">Left Sidebar</a></li>
+				<li class="current"><a href="right-sidebar.html">Right Sidebar</a></li>
+				<li><a href="no-sidebar.html">No Sidebar</a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-3 col-12-medium">
+						<div class="sidebar">
+							<!-- Sidebar -->
+							<section>
+								<h2 class="major"><span>search</span></h2>
+
+								<div id="search-panel">
+									<input id="address" type="text"
+										style="border:0px; background: transparent; font-size:20px; width: 13vw"
+										value="" />
+									<button id="submit" type="button" style="border: 0; background: transparent"
+										value="Geocode">
+										<img src="btn.PNG" width="17" height="17" alt="submit" />
+									</button>
+								</div>
+							</section>
+						</div>
+					</div>
+
+					<div class="col-9 col-12-medium">
+						<div class="content">
+							<!-- Content -->
+
+							<section>
+								<div id="google-map"></div>
+								<script type="text/javascript">
+									function initMap() {
+										var map = new google.maps.Map(document.getElementById('google-map'), {
+											zoom: 12.5,//처음 줌 값. 숫자가 작을수록 낮은 배율
+											center: { //처음 중심 좌표
+												lat: 37.5642135,
+												lng: 127.0016985
+											}
+										});
+
+										var customicon = "pin.png"
+										var geocoder = new google.maps.Geocoder();										
+										var infowindow = new google.maps.InfoWindow();
+
+										document.getElementById('submit').addEventListener('click', function () {
+											geocodeAddress(geocoder, map);
+										});
+
+										function geocodeAddress(geocoder, resultMap) {
+											var address = document.getElementById('address').value;
+
+											geocoder.geocode({ 'address': address }, function (result, status) {
+												console.log(result);
+												console.log(status);
+
+												if (status === 'OK') {
+													resultMap.setCenter(result[0].geometry.location);
+													resultMap.setZoom(18);
+													var marker = new google.maps.Marker({
+														map: resultMap,
+														position: result[0].geometry.location,
+														icon: customicon
+													});
+
+													if (marker) {
+														marker.addListener('click', function () {
+
+															//중심 위치를 클릭된 마커의 위치로 변경
+															map.setCenter(this.getPosition());
+
+															//마커 클릭 시의 줌 변화
+															map.setZoom(14);
+
+															//html로 표시될 인포 윈도우의 내용
+															var lat = this.getPosition().lat();
+															var lng = this.getPosition().lng();
+															var contentstring = "latitude: " + lat + " longitude: " + lng;
+															console.log(contentstring);
+															infowindow.setContent(contentstring);
+
+															//인포윈도우가 표시될 위치
+															infowindow.open(map, marker);
+														});
+													}
+												} else {
+													alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
+												}
+
+
+											});
+										}
+									}
+								</script>
+							</section>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxrPfhx6QB4gb-A5pa5AUAM1BKwdqgySU&callback=initMap">
+		</script>
+
+</body>
+
+</html>
