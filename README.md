@@ -13,7 +13,10 @@
 > ##### Logistic Regression
 >> 우선 Supervised Learning 중 하나인 Logistic Regression을 사용해보았다. Logistic Regression은 수치형 설명변수 X와 연속형 숫자로 이뤄진 종속변수 Y 간의 관계를 선형으로 가정하고 이를 가장 잘 표현할 수 있는 회귀계수를 데이터로부터 추정하는 모델이며, 이 회귀계수들은 모델의 예측값과 실제값의 차이, 즉 오차제곱합(error sum of squares)을 최소로 하는 값들이다. 즉, 데이터들이 Class에 속할 확률을 알려주는 Algorithm이라고 할 수 있다. 그리고 이를 통해 해당 위치에 대한 적합도를 계산해 낼 수 있다.
 > ##### Clustering
->> Clustering은 Unsupervised Learning 중 하나로써, 데이터들이 주어졌을 때, 개체들을 몇 개의 Cluster(부분 그룹)으로 나누는 과정을 의미한다. 즉 학습에 사용한 빅데이터들을 각종 데이터들을 이용하여 Cluster로 나누고, 이를 토대로 새로운 데이터를 입력했을 때 무슨 Cluster에 속하는 지를 예측하는 방법이라고 볼 수 있다. 우리는 다양한 Cluster model들을 실험해 보았다. 가장 유명한 방법인 K-means를 비롯해, hierarchical clustering, DBSCAN 등을 모두 실험해 보았다. 
+>> Clustering은 Unsupervised Learning 중 하나로써, 데이터들이 주어졌을 때, 개체들을 몇 개의 Cluster(부분 그룹)으로 나누는 과정을 의미한다. 즉 학습에 사용한 빅데이터들을 각종 데이터들을 이용하여 Cluster로 나누고, 이를 토대로 새로운 데이터를 입력했을 때 무슨 Cluster에 속하는 지를 예측하는 방법이라고 볼 수 있다. 우리는 다양한 Cluster model들을 실험해 보았다. 가장 유명한 방법인 K-means를 비롯해, hierarchical clustering, DBSCAN 등을 각각 실험해 보았다. 
+>>
+>> <img src="https://user-images.githubusercontent.com/51983113/99546235-92b71680-29f9-11eb-8e8f-5ec8908af25f.PNG" width="40%">
+
 
 ### 👀시각화를 위한 Web 구축
 > 결과값을 더 효율적으로 확인하기 위해 Web을 통해 정리하고 시각화하였다.
