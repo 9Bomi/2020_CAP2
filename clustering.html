@@ -2,7 +2,7 @@
 <html lang="ko">
 
 <head>
-	<title>Left Sidebar - TXT by HTML5 UP</title>
+	<title>CP2 - clustering</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -13,8 +13,20 @@
 			width: 65vw;
 			height: 70vh;
 		}
-		#testResult{
-    		white-space:pre-wrap;
+
+		#testResult {
+			white-space: pre-wrap;
+		}
+
+		@font-face {
+			font-family: 'Cafe24Ohsquareair';
+			/*글꼴*/
+			src: local('Cafe24Ohsquareair'),
+				url('assets/webfonts/Cafe24Ohsquareair.ttf') format('truetype');
+		}
+
+		.kor_font2 {
+			font-family: 'Cafe24Ohsquareair';
 		}
 	</style>
 </head>
@@ -25,7 +37,7 @@
 		<header id="header">
 			<div class="logo container">
 				<div>
-					<p>clustering</p>
+					<p style="color:rgb(107, 119, 112)">clustering</p>
 				</div>
 			</div>
 		</header>
@@ -34,6 +46,9 @@
 		<nav id="nav">
 			<ul>
 				<li><a href="index.html">Home</a></li>
+				<li><a href="information.html">information</a></li>
+				<li class="current"><a href="clustering.html">clustering</a></li>
+				<li><a href="regression.html">regression</a></li>
 				<li>
 					<a href="#">Dropdown</a>
 					<ul>
@@ -51,9 +66,6 @@
 						<li><a href="#">Veroeros feugiat</a></li>
 					</ul>
 				</li>
-				<li class="current"><a href="left-sidebar.html">Left Sidebar</a></li>
-				<li><a href="right-sidebar.html">Right Sidebar</a></li>
-				<li><a href="no-sidebar.html">No Sidebar</a></li>
 			</ul>
 		</nav>
 
@@ -66,7 +78,9 @@
 							<!-- Sidebar -->
 							<section>
 								<h2 class="major"><span>Information</span></h2>
-								<pre id = "out"></pre>
+								<div class="kor_font2">
+									<pre id="out"></pre>
+								</div>
 							</section>
 						</div>
 					</div>
@@ -86,7 +100,6 @@
 												lng: 127.0016985
 											}
 										});
-										var infoWindow = new google.maps.InfoWindow();
 										var marker, customicon;
 
 										$.getJSON('predict.json', function (data) {
@@ -146,12 +159,12 @@
 
 												(function (marker, mdata) {
 													google.maps.event.addListener(marker, "click", function (e) {
-														
-														var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: "+ mdata.sex + "\naddress: "+ mdata.gu + " " + mdata.dong + "\npredict: "+ mdata.predict;
-																							
+
+														var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: " + mdata.sex + "\naddress: " + mdata.gu + " " + mdata.dong + "\npredict: " + mdata.predict;
+
 														map.setCenter(this.getPosition());
-                    									map.setZoom(14);
-																										
+														map.setZoom(14);
+
 														console.log(contentstring);
 
 														$("#out").text(contentstring);
@@ -161,7 +174,6 @@
 														this.setIcon("images/pin_pink.png");
 													});
 
-													// assuming you also want to hide the infowindow when user mouses-out
 													google.maps.event.addListener(marker, "mouseout", function () {
 														var origincolor = custom(mdata.predict);
 														this.setIcon(origincolor);
@@ -172,14 +184,38 @@
 											}
 										});
 									}
-								</script>								
+								</script>
 							</section>
 							</article>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-12">
+
+						<!-- About -->
+						<section>
+							<h2 class="major"><span>with</span></h2>
+							<div class="kor_font2">
+								<p style="font-size: 20px">
+									<br>경북대학교 컴퓨터학부 종합설계프로젝트2 지도교수 김승호<br>
+									<a href="https://www.woozoo.kr/">셰어하우스 우주(WOOZOO)</a> & <a
+										href="https://www.dip.or.kr/home/main.ubs">대구디지털산업진흥원</a>
+								</p>
+							</div>
+						</section>
+
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
 
 	<!-- Scripts -->
