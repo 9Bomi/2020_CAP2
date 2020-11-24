@@ -2,7 +2,7 @@
 <html lang="ko">
 
 <head>
-	<title>Right Sidebar - TXT by HTML5 UP</title>
+	<title>CP2 - regression</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -24,6 +24,17 @@
 			text-align: justify;
 
 		}
+
+		@font-face {
+			font-family: 'Cafe24Ohsquareair';
+			/*글꼴*/
+			src: local('Cafe24Ohsquareair'),
+				url('assets/webfonts/Cafe24Ohsquareair.ttf') format('truetype');
+		}
+
+		.kor_font2 {
+			font-family: 'Cafe24Ohsquareair';
+		}
 	</style>
 
 </head>
@@ -34,7 +45,7 @@
 		<header id="header">
 			<div class="logo container">
 				<div>
-					<p>regression</p>
+					<p style="color:rgb(107, 119, 112)">regression</p>
 				</div>
 			</div>
 		</header>
@@ -43,6 +54,9 @@
 		<nav id="nav">
 			<ul>
 				<li><a href="index.html">Home</a></li>
+				<li><a href="information.html">information</a></li>
+				<li><a href="clustering.html">clustering</a></li>
+				<li class="current"><a href="regression.html">regression</a></li>
 				<li>
 					<a href="#">Dropdown</a>
 					<ul>
@@ -60,9 +74,6 @@
 						<li><a href="#">Veroeros feugiat</a></li>
 					</ul>
 				</li>
-				<li><a href="left-sidebar.html">Left Sidebar</a></li>
-				<li class="current"><a href="right-sidebar.html">Right Sidebar</a></li>
-				<li><a href="no-sidebar.html">No Sidebar</a></li>
 			</ul>
 		</nav>
 
@@ -106,7 +117,7 @@
 										});
 
 										var customicon = "images/pin.png"
-										var geocoder = new google.maps.Geocoder();										
+										var geocoder = new google.maps.Geocoder();
 										var infowindow = new google.maps.InfoWindow();
 
 										document.getElementById('submit').addEventListener('click', function () {
@@ -152,8 +163,6 @@
 												} else {
 													alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
 												}
-
-
 											});
 										}
 									}
@@ -166,6 +175,29 @@
 				</div>
 			</div>
 		</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-12">
+
+						<!-- About -->
+						<section>
+							<h2 class="major"><span>with</span></h2>
+							<div class="kor_font2">
+								<p style="font-size: 20px">
+									<br>경북대학교 컴퓨터학부 종합설계프로젝트2 지도교수 김승호<br>
+									<a href="https://www.woozoo.kr/">셰어하우스 우주(WOOZOO)</a> & <a
+										href="https://www.dip.or.kr/home/main.ubs">대구디지털산업진흥원</a>
+								</p>
+							</div>
+						</section>
+
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
 
 	<!-- Scripts -->
