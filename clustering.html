@@ -27,6 +27,7 @@
 
 		.kor_font2 {
 			font-family: 'Cafe24Ohsquareair';
+			font-size: 1.2em;
 		}
 	</style>
 </head>
@@ -46,7 +47,7 @@
 		<nav id="nav">
 			<ul>
 				<li><a href="index.html">Home</a></li>
-				<li><a href="information.html">information</a></li>
+				<li><a href="introduction.html">introduction</a></li>
 				<li class="current"><a href="clustering.html">clustering</a></li>
 				<li><a href="regression.html">regression</a></li>
 				<li>
@@ -151,14 +152,20 @@
 												(function (marker, mdata) {
 													google.maps.event.addListener(marker, "click", function (e) {
 
-														var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: " + mdata.sex + "\naddress: " + mdata.gu + " " + mdata.dong + "\npredict: " + mdata.predict;
-
+														//var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: " + mdata.sex + "\naddress: " + mdata.gu + " " + mdata.dong + "\npredict: " + mdata.predict;
+														var contentstring = '';
+														contentstring += '<div><strong>BED CODE         </strong>' + mdata.bed_code + '<br>';
+														contentstring += '<strong>ROOM SIZE       </strong>' + mdata.room_size + '<br>';
+														contentstring += '<strong>SEX                    </strong>' + mdata.sex + '<br>';
+														contentstring += '<strong>ADDRESS          </strong>' + mdata.gu + ' ' + mdata.dong + '<br>';
+														contentstring += '<strong>PREDICT            </strong>' + mdata.predict + '</div>';
 														map.setCenter(this.getPosition());
 														map.setZoom(14);
 
 														console.log(contentstring);
 
-														$("#out").text(contentstring);
+														$("#out").html(contentstring);
+
 													});
 
 													google.maps.event.addListener(marker, "mouseover", function () {
