@@ -34,6 +34,7 @@
 
 		.kor_font2 {
 			font-family: 'Cafe24Ohsquareair';
+			font-size: 1.2em;
 		}
 	</style>
 
@@ -76,95 +77,121 @@
 						<div class="sidebar">
 							<!-- Sidebar -->
 							<section>
-								<h2 class="major"><span>search</span></h2>
-
-								<div id="search-panel">
-									<input id="address" type="text"
-										style="border:0px; background: transparent; font-size:20px; width: 13vw"
-										value="" />
-									<button id="submit" type="button" style="border: 0; background: transparent"
-										value="Geocode">
-										<img src="images/btn.PNG" width="17" height="17" alt="submit" />
-									</button>
+								<h2 class="major"><span>Information</span></h2>
+								<div class="kor_font2">
+									<pre id="out"></pre>
 								</div>
 							</section>
 						</div>
 					</div>
 
-					<div class="col-9 col-12-medium">
+					<div class="col-9 col-12-medium imp-medium">
 						<div class="content">
 							<!-- Content -->
-
 							<section>
+
 								<div id="google-map"></div>
 								<script type="text/javascript">
 									function initMap() {
 										var map = new google.maps.Map(document.getElementById('google-map'), {
-											zoom: 12.5,//처음 줌 값. 숫자가 작을수록 낮은 배율
+											zoom: 11,//처음 줌 값. 숫자가 작을수록 낮은 배율
 											center: { //처음 중심 좌표
 												lat: 37.5642135,
 												lng: 127.0016985
 											}
 										});
 
-										var customicon = "images/pin.png"
-										var geocoder = new google.maps.Geocoder();
-										var infowindow = new google.maps.InfoWindow();
+										$.getJSON('rpredict.json', function (data) {
+											for (i = 0; i < data.length; i++) {
+												var mdata = data[i];
+												var pr = data[i].preds_rf;
 
-										document.getElementById('submit').addEventListener('click', function () {
-											geocodeAddress(geocoder, map);
-										});
+												function custom(predict) {
+													switch (predict) {
+														case 0:
+															color = "yellow";
+															break;
 
-										function geocodeAddress(geocoder, resultMap) {
-											var address = document.getElementById('address').value;
+														case 1:
+															color = "red";
+															break;
 
-											geocoder.geocode({ 'address': address }, function (result, status) {
-												console.log(result);
-												console.log(status);
+														default:
+															color = "green";
+													}
 
-												if (status === 'OK') {
-													resultMap.setCenter(result[0].geometry.location);
-													resultMap.setZoom(18);
-													var marker = new google.maps.Marker({
-														map: resultMap,
-														position: result[0].geometry.location,
-														icon: customicon
+													let customurl = "images/dot_";
+													customurl += color + ".png";
+
+													return customurl;
+												}
+												customicon = custom(pr);
+												marker = new google.maps.Marker({
+													icon: customicon,
+													position: new google.maps.LatLng(data[i].latitude, data[i].longtitude),
+													map: map
+												});
+
+												(function (marker, mdata) {
+													google.maps.event.addListener(marker, "click", function (e) {
+
+														//var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: " + mdata.sex + "\naddress: " + mdata.gu + " " + mdata.dong + "\npredict: " + mdata.predict;
+														var contentstring = '';
+                                                        contentstring += '<strong>공시지가(원/m2)   </strong>' + (mdata.land_price).toFixed(3) + '<br>';
+                                                        contentstring += '<strong>보증금                    </strong>' + (mdata.deposit).toFixed(0) + '만원<br>';
+                                                        contentstring += '<strong>월세                       </strong>' + (mdata.monthly).toFixed(0) + '만원<br>';
+														contentstring += '<strong>주소                       </strong>' + mdata.gu + ' ' + mdata.dong + '<br>';
+														
+                                                        
+                                                        function pout(predict) {
+													switch (predict) {
+														case 0:
+															pr = "미추천";
+															break;
+
+														case 1:
+															pr = "추천";
+															break;
+
+														default:
+															pr = "완료";
+													}
+													return pr;
+												}
+												var preds = pout(mdata.preds_rf);
+                                                        
+                                                        contentstring += '<strong>PREDICT              </strong>' + preds + '</div>';
+														//map.setCenter(this.getPosition());
+														//map.setZoom(14);
+
+														console.log(contentstring);
+
+														$("#out").html(contentstring);
+
 													});
 
-													if (marker) {
-														marker.addListener('click', function () {
+													google.maps.event.addListener(marker, "mouseover", function () {
+														this.setIcon("images/dot_blue.png");
+													});
 
-															//중심 위치를 클릭된 마커의 위치로 변경
-															map.setCenter(this.getPosition());
+													google.maps.event.addListener(marker, "mouseout", function () {
+														var origincolor = custom(mdata.preds_rf);
+														this.setIcon(origincolor);
 
-															//마커 클릭 시의 줌 변화
-															map.setZoom(14);
+													});
 
-															//html로 표시될 인포 윈도우의 내용
-															var lat = this.getPosition().lat();
-															var lng = this.getPosition().lng();
-															var contentstring = "latitude: " + lat + " longitude: " + lng;
-															console.log(contentstring);
-															infowindow.setContent(contentstring);
-
-															//인포윈도우가 표시될 위치
-															infowindow.open(map, marker);
-														});
-													}
-												} else {
-													alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
-												}
-											});
-										}
+												})(marker, mdata);
+											}
+										});
 									}
 								</script>
 							</section>
+							</article>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
+
 		</section>
 
 		<!-- Footer -->
