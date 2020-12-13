@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Google\Chrome\Application>chrome.exe --disable-web-security --allow-file-access-from-files
+
+디버그하지말고 
+연결프로그램->크롬
+
+
+json 파일 인코딩 혀식 utf-8로 저장해야 안깨짐

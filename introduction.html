@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>CP2 - information</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+
+	<style>
+		@font-face {
+			font-family: 'Cafe24Ohsquare';
+			/*글꼴*/
+			src: local('Cafe24Ohsquare'),
+				url('assets/webfonts/Cafe24Ohsquare.ttf') format('truetype');
+		}
+
+		@font-face {
+			font-family: 'Cafe24Ohsquareair';
+			/*글꼴*/
+			src: local('Cafe24Ohsquareair'),
+				url('assets/webfonts/Cafe24Ohsquareair.ttf') format('truetype');
+		}
+
+		.kor_font {
+			font-family: 'Cafe24Ohsquare';
+		}
+
+		.kor_font2 {
+			font-family: 'Cafe24Ohsquareair';
+		}
+	</style>
+
+</head>
+
+<body class="is-preload">
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<div class="logo container">
+				<div class="kor_font">
+					<p style="color:rgb(107, 119, 112)">종합설계프로젝트 2</p>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li class="current"><a href="introduction.html">introduction</a></li>
+				<li><a href="clustering.html">clustering</a></li>
+				<li><a href="regression.html">regression</a></li>
+				<li>
+					<a href="#">link</a>
+					<ul>
+						<li><a href="https://lms.knu.ac.kr/ilos/main/main_form.acl">LMS</a></li>
+						<li><a href="https://github.com/9Bomi/2020_CP2">github</a></li>
+						<li><a href="https://www.notion.so/2020-2-2-8-159fb6f88989468f88dbb70a664b9900">notion</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="content">
+
+							<!-- Content -->
+
+							<article class="box page-content">
+
+								<header>
+									<h2>빅데이터를 활용한 입지분석 모델링</h2>
+									<p>셰어하우스 데이터를 활용한 입지분석 모델 생성과 활용</p>
+								</header>
+
+								<section>
+									<h3>🎈Project 개요</h3>
+									<p>
+										최근 원룸, 빌라, 셰어하우스 등 주거 사업의 수요와 공급이 증가함에 따라 경제적 이득의 최대화를 위한 입지 선정이 굉장히 중요한 이슈로
+										떠올랐다.
+										이에 따라 빅데이터 자료를 딥러닝을 이용해 입지를 분석하고 원하는 위치의 적합도를 예측하였다.
+										또한, 시각적 편의를 위해 그 결괏값을 웹을 통하여 시각화하여 표현하였다.
+									</p>
+								</section>
+
+								<section>
+									<h3>🌹데이터 전처리</h3>
+									<p>
+										우리는 다양한 빅데이터 중 셰어하우스에 대한 데이터를 이용하여 입지를 분석하였다.
+										데이터는 각 셰어하우스의 방 크기, 방의 거주인원 수 등을 포함하고 있다.
+										이런 내부 데이터들과 주거지 선택과 밀접한 관계를 맺는 외부 데이터들,
+										즉 대학, 버스 정류장, 지하철역, 의료 시설 등 편의 시설들과의 거리를 합하여 데이터로 사용하였다.
+										이 데이터들을 MinMax Scaler 등을 활용하여 정규화를 진행하는 등 다양한 전처리 기법들을 시험해보며 더 정밀한 결괏값을 얻고자 하였다.
+									</p>
+								</section>
+
+								<section>
+									<h3>🧬데이터 기반 Word Cloud 제작</h3><!--!!!!!!!!!아 이모티콘 깨짐!!!!!!!!-->
+									<p></p>
+									<span class="image centered"><img src="images/pic05.jpg" alt="" /></span>
+								</section>
+
+								<section>
+									<h3>🧩최적의 Deep Learning model 선정</h3><!--!!!!!!!!!아 이모티콘 깨짐!!!!!!!!-->
+									<p>
+										가장 좋은 결괏값을 얻어내기 위해 우리는 여러 가지 Deep Learning model들을 시도해 보았다.
+									</p>
+									<p><strong><br>Logistic Regression</strong></p>
+									<p style="margin-left: 15px">
+										우선 Supervised Learning 중 하나인 Logistic Regression을 사용해보았다.
+										Logistic Regression은 수치형 설명변수 X와 연속형 숫자로 이뤄진 종속변수 Y 간의 관계를 선형으로 가정하고
+										이를 가장 잘 표현할 수 있는 회귀계수를 데이터로부터 추정하는 모델이며, 이 회귀계수들은 모델의 예측값과 실제값의 차이,
+										즉 오차제곱합(error sum of squares)을 최소로 하는 값들이다.
+										즉, 데이터들이 Class에 속할 확률을 알려주는 Algorithm이라고 할 수 있다.
+										그리고 이를 통해 해당 위치에 대한 적합도를 계산해 낼 수 있다.
+									</p>
+									<p><strong><br>Clustering</strong></p>
+									<p style="margin-left: 15px">
+										Clustering은 Unsupervised Learning 중 하나로써, 데이터들이 주어졌을 때,
+										개체들을 몇 개의 Cluster(부분 그룹)으로 나누는 과정을 의미한다.
+										즉 학습에 사용한 빅데이터들을 각종 데이터를 이용하여 Cluster로 나누고,
+										이를 토대로 새로운 데이터를 입력했을 때 무슨 Cluster에 속하는지를 예측하는 방법이라고 볼 수 있다.
+										우리는 다양한 Cluster model들을 실험해 보았다.
+										가장 유명한 방법인 K-means를 비롯해 hierarchical clustering, DBSCAN 등을 각각 실험해 보았다.<br><br>
+									</p>
+									<span class="image centered"><img src="images/pic06.jpg" alt="" /></span>
+								</section>
+
+								<section>
+									<h3>👀시각화를 위한 Web 구축</h3>
+									<p>
+										결괏값을 더 효율적으로 확인하기 위해 Web을 통해 정리하고 시각화하였다.
+									</p>
+								</section>
+
+								<section>
+									<h3>🎁기대효과</h3>
+									<p>
+										우리는 이 프로젝트를 통해 주거 사업에 큰 도움을 줄 수 있다고 생각한다.
+										원룸, 셰어하우스 등 모든 주거 사업들에 입지 선정이 가장 큰 성공 요인으로 뽑히고 있고,
+										우리 프로젝트는 이를 효과적으로 도울 수 있을 것이라고 생각한다.
+										현재는 단지 셰어하우스의 데이터를 이용해서 학습하고 구현을 하였지만,
+										데이터 입력만 바꿔주면 다른 주거 사업들에도 쉽게 적용할 수 있고,
+										더 나아가 식당, 다양한 창업을 위한 입지 분석에도 쉽게 사용할 수 있다.
+										이러한 점을 통해 입지 분석에 애를 먹고 있는 수많은 사람에게 큰 도움이 될 수 있을 것이다.
+									</p>
+								</section>
+
+							</article>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-12">
+
+						<!-- About -->
+						<section>
+							<h2 class="major"><span>with</span></h2>
+							<div class="kor_font2">
+								<p style="font-size: 20px">
+									<br>경북대학교 컴퓨터학부 종합설계프로젝트2 지도교수 김승호<br>
+									<a href="https://www.woozoo.kr/">셰어하우스 우주(WOOZOO)</a> & <a
+										href="https://www.dip.or.kr/home/main.ubs">대구디지털산업진흥원</a>
+								</p>
+							</div>
+						</section>
+
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

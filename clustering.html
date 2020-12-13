@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+
+<head>
+	<title>CP2 - clustering</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="assets/css/main.css" />
+
+	<style>
+		#google-map {
+			width: 65vw;
+			height: 70vh;
+		}
+
+		#testResult {
+			white-space: pre-wrap;
+		}
+
+		@font-face {
+			font-family: 'Cafe24Ohsquareair';
+			/*글꼴*/
+			src: local('Cafe24Ohsquareair'),
+				url('assets/webfonts/Cafe24Ohsquareair.ttf') format('truetype');
+		}
+
+		.kor_font2 {
+			font-family: 'Cafe24Ohsquareair';
+			font-size: 1.2em;
+		}
+	</style>
+</head>
+
+<body class="is-preload">
+	<div id="page-wrapper">
+
+		<header id="header">
+			<div class="logo container">
+				<div>
+					<p style="color:rgb(107, 119, 112)">clustering</p>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="introduction.html">introduction</a></li>
+				<li class="current"><a href="clustering.html">clustering</a></li>
+				<li><a href="regression.html">regression</a></li>
+				<li>
+					<a href="#">link</a>
+					<ul>
+						<li><a href="https://lms.knu.ac.kr/ilos/main/main_form.acl">LMS</a></li>
+						<li><a href="https://github.com/9Bomi/2020_CP2">github</a></li>
+						<li><a href="https://www.notion.so/2020-2-2-8-159fb6f88989468f88dbb70a664b9900">notion</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-3 col-12-medium">
+						<div class="sidebar">
+							<!-- Sidebar -->
+							<section>
+								<h2 class="major"><span>Information</span></h2>
+								<div class="kor_font2">
+									<pre id="out"></pre>
+								</div>
+							</section>
+						</div>
+					</div>
+
+					<div class="col-9 col-12-medium imp-medium">
+						<div class="content">
+							<!-- Content -->
+							<section>
+
+								<div id="google-map"></div>
+								<script type="text/javascript">
+									function initMap() {
+										var map = new google.maps.Map(document.getElementById('google-map'), {
+											zoom: 12.5,//처음 줌 값. 숫자가 작을수록 낮은 배율
+											center: { //처음 중심 좌표
+												lat: 37.5642135,
+												lng: 127.0016985
+											}
+										});
+										var marker, customicon;
+
+										$.getJSON('predict.json', function (data) {
+											for (i = 0; i < data.length; i++) {
+												var mdata = data[i];
+												var pr = data[i].predict;
+
+												function custom(predict) {
+													switch (predict) {
+														case 0:
+															color = "red";
+															break;
+
+														case 1:
+															color = "orange";
+															break;
+
+														case 2:
+															color = "yellow";
+															break;
+
+														case 3:
+															color = "green";
+															break;
+
+														case 4:
+															color = "blue";
+															break;
+
+														case 5:
+															color = "purple";
+															break;
+
+														case 6:
+															color = "brown";
+															break;
+
+														case 7:
+															color = "white";
+															break;
+
+														default:
+															color = "black";
+													}
+
+													let customurl = "images/pin_";
+													customurl += color + ".png";
+
+													return customurl;
+												}
+												customicon = custom(pr);
+												marker = new google.maps.Marker({
+													icon: customicon,
+													position: new google.maps.LatLng(data[i].latitude, data[i].longtitude),
+													map: map
+												});
+
+												(function (marker, mdata) {
+													google.maps.event.addListener(marker, "click", function (e) {
+
+														//var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: " + mdata.sex + "\naddress: " + mdata.gu + " " + mdata.dong + "\npredict: " + mdata.predict;
+														var contentstring = '';
+														contentstring += '<div><strong>BED CODE         </strong>' + mdata.bed_code + '<br>';
+														contentstring += '<strong>ROOM SIZE       </strong>' + mdata.room_size + '<br>';
+														contentstring += '<strong>SEX                    </strong>' + mdata.sex + '<br>';
+														contentstring += '<strong>ADDRESS          </strong>' + mdata.gu + ' ' + mdata.dong + '<br>';
+														contentstring += '<strong>PREDICT            </strong>' + mdata.predict + '</div>';
+														map.setCenter(this.getPosition());
+														map.setZoom(14);
+
+														console.log(contentstring);
+
+														$("#out").html(contentstring);
+
+													});
+
+													google.maps.event.addListener(marker, "mouseover", function () {
+														this.setIcon("images/pin_pink.png");
+													});
+
+													google.maps.event.addListener(marker, "mouseout", function () {
+														var origincolor = custom(mdata.predict);
+														this.setIcon(origincolor);
+
+													});
+
+												})(marker, mdata);
+											}
+										});
+									}
+								</script>
+							</section>
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-12">
+
+						<!-- About -->
+						<section>
+							<h2 class="major"><span>with</span></h2>
+							<div class="kor_font2">
+								<p style="font-size: 20px">
+									<br>경북대학교 컴퓨터학부 종합설계프로젝트2 지도교수 김승호<br>
+									<a href="https://www.woozoo.kr/">셰어하우스 우주(WOOZOO)</a> & <a
+										href="https://www.dip.or.kr/home/main.ubs">대구디지털산업진흥원</a>
+								</p>
+							</div>
+						</section>
+
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxrPfhx6QB4gb-A5pa5AUAM1BKwdqgySU&callback=initMap">
+		</script>
+</body>
+
+</html>
