@@ -18,13 +18,6 @@
 			white-space: pre-wrap;
 		}
 
-		#search-panel {
-			position: absolute;
-			outline: none;
-			text-align: justify;
-
-		}
-
 		@font-face {
 			font-family: 'Cafe24Ohsquareair';
 			/*글꼴*/
@@ -36,6 +29,7 @@
 			font-family: 'Cafe24Ohsquareair';
 			font-size: 1.2em;
 		}
+
 	</style>
 
 </head>
@@ -104,28 +98,29 @@
 										$.getJSON('rpredict.json', function (data) {
 											for (i = 0; i < data.length; i++) {
 												var mdata = data[i];
-												var pr = data[i].preds_rf;
+												var pr = data[i].predict;
+												var ox=data[i].ox_y;
 
-												function custom(predict) {
-													switch (predict) {
-														case 0:
-															color = "yellow";
-															break;
 
-														case 1:
-															color = "red";
-															break;
-
-														default:
-															color = "green";
+												function custom(predict, ox) {
+													
+													if(ox==1){
+														color="green";
 													}
-
+													else if(predict==4){
+														color="red";
+													}
+													else{
+														color="yellow";
+													}
+												
 													let customurl = "images/dot_";
 													customurl += color + ".png";
 
 													return customurl;
 												}
-												customicon = custom(pr);
+
+												customicon = custom(pr, ox);
 												marker = new google.maps.Marker({
 													icon: customicon,
 													position: new google.maps.LatLng(data[i].latitude, data[i].longtitude),
@@ -135,34 +130,55 @@
 												(function (marker, mdata) {
 													google.maps.event.addListener(marker, "click", function (e) {
 
-														//var contentstring = "bed_code: " + mdata.bed_code + "\nroomsize: " + mdata.room_size + "\nsex: " + mdata.sex + "\naddress: " + mdata.gu + " " + mdata.dong + "\npredict: " + mdata.predict;
 														var contentstring = '';
-                                                        contentstring += '<strong>공시지가(원/m2)   </strong>' + (mdata.land_price).toFixed(3) + '<br>';
-                                                        contentstring += '<strong>보증금                    </strong>' + (mdata.deposit).toFixed(0) + '만원<br>';
-                                                        contentstring += '<strong>월세                       </strong>' + (mdata.monthly).toFixed(0) + '만원<br>';
-														contentstring += '<strong>주소                       </strong>' + mdata.gu + ' ' + mdata.dong + '<br>';
-														
+														contentstring += '<strong style="font-size:1.25em;"> 최단거리</strong><br>';
+														contentstring += '<strong>병원</strong><div style="float:right;">' + (mdata.hospital).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>약국</strong><div style="float:right;">' + (mdata.pharmacy).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>체육관</strong><div style="float:right;">' + (mdata.gym).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>도서관</strong><div style="float:right;">' + (mdata.libraray).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>경찰서</strong><div style="float:right;">' + (mdata.police).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>공원</strong><div style="float:right;">' + (mdata.park).toFixed(3) + 'km</div><br>';
                                                         
-                                                        function pout(predict) {
-													switch (predict) {
-														case 0:
-															pr = "미추천";
-															break;
-
-														case 1:
-															pr = "추천";
-															break;
-
-														default:
-															pr = "완료";
+														contentstring += '<strong>대학교</strong><div style="float:right;">' + (mdata.HubDist).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>지하철</strong><div style="float:right;">' + (mdata.subHubDist).toFixed(3) + 'km</div><br>';
+                                                        contentstring += '<strong>버스정류장</strong><div style="float:right;">' + (mdata.busHubDist).toFixed(3) + 'km</div><br>';
+														
+														contentstring += '<strong style="font-size:1.25em;"><br> 안전등급</strong><br>';
+														contentstring += '<strong>교통사고</strong><div style="float:right;">' + mdata.accident + '</div><br>';
+                                                        contentstring += '<strong>화재</strong><div style="float:right;">' + mdata.fire + '</div><br>';
+                                                        contentstring += '<strong>범죄</strong><div style="float:right;">' + mdata.criminal + '</div><br>';
+                                                        contentstring += '<strong>생활안전</strong><div style="float:right;">' + mdata.safety + '</div><br>';
+                                                        contentstring += '<strong>자살</strong><div style="float:right;">' + mdata.suicide + '</div><br>';
+                                                        contentstring += '<strong>감염병</strong><div style="float:right;">' + mdata.disease + '</div><br>';
+														
+														
+														contentstring += '<strong style="font-size:1.25em;"><br> 격자 내 개수</strong><br>';
+														contentstring += '<strong>카페</strong><div style="float:right;">' + (mdata.CAFE_COUNT).toFixed(0) + '개</div><br>';
+                                                        contentstring += '<strong>지하철역</strong><div style="float:right;">' + (mdata.sub_count).toFixed(0) + '개</div><br>';
+                                                        contentstring += '<strong>버스정류장</strong><div style="float:right;">' + (mdata.bus_count).toFixed(0) + '개</div><br>';
+                                                        contentstring += '<strong>편의점</strong><div style="float:right;">' + (mdata.Convenience_count).toFixed(0) + '개</div><br>';
+                                                       
+														contentstring += '<strong><br>공시지가(원/m2)</strong><br><div style="float:right;">' + (mdata.landprice).toFixed(3) + '</div><br>';
+                                                        
+                                                        
+                                                        function pout(predict, ox) {
+															if(ox==1){
+														pr="이미 셰어하우스가 존재하는 격자";
 													}
+													else if(predict==4){
+														pr="DNN, LightGBM, randomforest, XGBoost 모두 추천한 격자";
+													}
+													else{
+														pr="일반 격자";
+													}
+								
+
 													return pr;
 												}
-												var preds = pout(mdata.preds_rf);
+												var preds = pout(mdata.predict, mdata.ox_y);
                                                         
-                                                        contentstring += '<strong>PREDICT              </strong>' + preds + '</div>';
-														//map.setCenter(this.getPosition());
-														//map.setZoom(14);
+                                                        contentstring += '<strong style="font-size:1.25em;">' + preds + '</strong></div>';
+													
 
 														console.log(contentstring);
 
@@ -175,7 +191,7 @@
 													});
 
 													google.maps.event.addListener(marker, "mouseout", function () {
-														var origincolor = custom(mdata.preds_rf);
+														var origincolor = custom(mdata.predict, mdata.ox_y);
 														this.setIcon(origincolor);
 
 													});
